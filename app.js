@@ -13,15 +13,29 @@ hbs.registerPartials(__dirname + "/views/Partials")
 
 app.use(express.static(path.join(__dirname, 'public'))); 
 
-const getBeers = punkAPI.getBeers()
-                        .then(beersFromApi => console.log('Beers from the database: ', beersFromApi))
-                        .catch(error => console.log(error));
+app.get('/beers',(req, res)=> {
+  punkAPI
+  .getBeers ()
+  .then(beersFromApi => {
+    res.render('beers', { beersFromApi }); 
+  })
+  .catch(err => {
+    console.log(err);
+  });
+});
 
 
 
-const randomBeer = punkAPI.getRandom()
-                          .then(responseFromAPI => { console.log(beersfromAPI[0].name)})
-                          .catch(error => console.log(error));
+app.get('/random-beer', (req, res) => {
+  punkAPI
+    .getRandom()
+    .then(randomBeer => {
+      res.render('random-beer', { randomBeer });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 
 app.get('/', (req, res) => {
